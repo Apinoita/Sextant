@@ -19,6 +19,6 @@ public class Sextant implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Hello Modding world!");
+		LOGGER.info("Hello Fabric world!");
 	}
 }
