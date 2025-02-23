@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "sextant",
+	"version": "${version}",
+	"name": "Sextant",
+	"description": "A mod about measuring angles and distances",
+	"authors": [
+		"Apinoita"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/sextant/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.apinoita.sextant.Sextant"
+		],
+		"client": [
+			"net.apinoita.sextant.SextantClient"
+		],
+		"fabric-datagen": [
+			"net.apinoita.sextant.SextantDataGenerator"
+		]
+	},
+	"mixins": [
+		"sextant.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
