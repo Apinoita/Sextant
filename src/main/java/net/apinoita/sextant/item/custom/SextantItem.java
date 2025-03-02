@@ -1,5 +1,6 @@
 package net.apinoita.sextant.item.custom;
 
+import net.apinoita.sextant.util.ModMeasuringUtil;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -71,7 +72,7 @@ public class SextantItem extends Item {
     private void startMeasuring(ItemStack stack, float currentAngle){
 
         NbtCompound NbtData = new NbtCompound();
-        NbtData.putFloat("sextant.first_angle", convertAngleToFormatWithNoNegative(currentAngle));
+        NbtData.putFloat("sextant.first_angle", ModMeasuringUtil.convertAngleTo360format(currentAngle));
         if (stack.hasNbt()){NbtData.putFloat("sextant.latest_measurement", stack.getNbt().getFloat("sextant.latest_measurement"));}
         else{NbtData.putFloat("sextant.latest_measurement",0F);}
         NbtData.putBoolean("sextant.measuring", true);
@@ -80,29 +81,13 @@ public class SextantItem extends Item {
 
     private void stopMeasuring(ItemStack stack, float currentAngle){
 
-        float latestMeasurement = calculateMeasurement(stack.getNbt().getFloat("sextant.first_angle"), convertAngleToFormatWithNoNegative(currentAngle));
+        float latestMeasurement = ModMeasuringUtil.calculateMeasurement(stack.getNbt().getFloat("sextant.first_angle"), ModMeasuringUtil.convertAngleTo360format(currentAngle));
 
         NbtCompound NbtData = new NbtCompound();
         NbtData.putFloat("sextant.latest_measurement", latestMeasurement);
         NbtData.putFloat("sextant.first_angle", stack.getNbt().getFloat("sextant.first_angle"));
         NbtData.putBoolean("sextant.measuring", false);
         stack.setNbt(NbtData);
-    }
-
-    // 0/360(south) 270(east) 180(north) 90(west)
-    private float convertAngleToFormatWithNoNegative(float angle){
-        if (angle < 0){
-            return 360F + angle;
-        }
-        return angle;
-    }
-
-    private float calculateMeasurement(float firstAngle, float secondAngle) {
-        float measurement = Math.abs(secondAngle - firstAngle);
-        if (measurement > 180F){
-            return 360F - measurement;
-        }
-        return measurement;
     }
 
            /*
