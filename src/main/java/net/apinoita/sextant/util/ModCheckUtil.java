@@ -1,6 +1,7 @@
 package net.apinoita.sextant.util;
 
 import net.apinoita.sextant.item.ModItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 
