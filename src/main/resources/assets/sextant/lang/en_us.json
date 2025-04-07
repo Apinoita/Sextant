@@ -1,3 +1,4 @@
 {
-  "item.sextant.sextant": "Sextant"
+  "item.sextant.sextant": "Sextant",
+  "item.sextant.tooltip.latest_measurement": "Latest measurement: %1$s"
 }

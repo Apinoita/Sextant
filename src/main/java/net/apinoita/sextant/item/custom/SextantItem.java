@@ -57,7 +57,7 @@ public class SextantItem extends Item {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (!world.isClient()) {
-            stopMeasuring(stack, user.headYaw);
+            stopMeasuring(stack, Math.round(user.headYaw));
         }
     }
 
@@ -65,7 +65,12 @@ public class SextantItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         if (stack.hasNbt()){
             float latestMeasurement = stack.getNbt().getFloat("sextant.latest_measurement");
-            tooltip.add(Text.literal("Latest measurement " + latestMeasurement));
+            String angledeg = Integer.toString(Math.round(latestMeasurement)) + "°";
+            String anglerad = Float.toString((float) Math.round(100 * (Math.round(latestMeasurement) * Math.PI / 180)) /100) + "rad";
+
+            if(true){tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angledeg));}
+            else {tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", anglerad));}
+
         }
     }
 

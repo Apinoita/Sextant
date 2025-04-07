@@ -35,25 +35,19 @@ public class PlayerHeldItemFeatureRendererMixin <T extends PlayerEntity, M exten
     private HeldItemRenderer playerHeldItemRenderer;
 
     public PlayerHeldItemFeatureRendererMixin(FeatureRendererContext<T, M> context, HeldItemRenderer heldItemRenderer) {super(context, heldItemRenderer);}
-    @Shadow private void renderSpyglass(LivingEntity entity, ItemStack stack, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {}
-
-
-        //@Shadow private getHead(){}
-    /*@Shadow public M getContextModel(){
-        return null;
-    }*/
 
     @Unique
     private void renderSextant(LivingEntity entity, ItemStack stack, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
         ModelPart modelPart = this.getContextModel().getHead();
         float f = modelPart.pitch;
-        modelPart.pitch = MathHelper.clamp(modelPart.pitch, (float) (-Math.PI / 6), (float) (Math.PI / 2));
+        modelPart.pitch = MathHelper.clamp(modelPart.pitch, (float) (-Math.PI / 6F), (float) (Math.PI / 2));
         modelPart.rotate(matrices);
         modelPart.pitch = f;
         HeadFeatureRenderer.translate(matrices, false);
-        boolean bl = arm == Arm.LEFT;
-        matrices.translate((bl ? -2.5F : 2.5F) / 16.0F, -0.0625F, 0.0F);
+        boolean bl = (arm == Arm.LEFT);
+        //matrices.translate((bl ? -2.5F : 2.5F) / 16.0F, -0.0625F, 0.0F);
+        matrices.translate((bl ? -2.5F : 2.5F) / -50.0F, 0F, 0.0F);
         this.playerHeldItemRenderer.renderItem(entity, stack, ModelTransformationMode.HEAD, false, matrices, vertexConsumers, light);
         matrices.pop();
     }
