@@ -11,6 +11,15 @@ base {
 }
 
 repositories {
+
+
+	maven { url "https://maven.terraformersmc.com/releases/" }
+
+	maven {
+		name = "FzzyMaven"
+		url = "https://maven.fzzyhmstrs.me/"}
+
+
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
@@ -32,7 +41,10 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+
+	modImplementation "me.fzzyhmstrs:fzzy_config:${project.fzzyConfigVersion}"
+
+	modApi("com.terraformersmc:modmenu:${project.modMenuVersion}")
 }
 
 processResources {

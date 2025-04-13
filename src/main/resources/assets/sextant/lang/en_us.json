@@ -1,4 +1,10 @@
 {
   "item.sextant.sextant": "Sextant",
-  "item.sextant.tooltip.latest_measurement": "Latest measurement: %1$s"
+  "item.sextant.tooltip.latest_measurement": "Latest measurement: %1$s",
+
+  "config.title.sextant": "Sextant",
+  "config.category.sextant.client": "Client",
+
+  "config.option.sextant.angle_unit.name": "Angle unit",
+  "config.option.sextant.angle_unit.tooltip": "Changes the unit that is used for displaying angles"
 }
