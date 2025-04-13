@@ -5,6 +5,9 @@
   "config.title.sextant": "Sextant",
   "config.category.sextant.client": "Client",
 
-  "config.option.sextant.angle_unit.name": "Angle unit",
-  "config.option.sextant.angle_unit.tooltip": "Changes the unit that is used for displaying angles"
+  "config.sextant.client.angleUnit": "Angle unit",
+  "config.sextant.client.angleUnit.desc": "Changes the unit that is used for angles",
+  "sextant.AngleUnits.DEGREES": "Degrees",
+  "sextant.AngleUnits.RADIANS": "Radians"
+
 }

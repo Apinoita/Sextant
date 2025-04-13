@@ -3,6 +3,7 @@ package net.apinoita.sextant.mixin;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.apinoita.sextant.util.ModCheckUtil;
 import net.apinoita.sextant.util.ModMeasuringUtil;
+import net.apinoita.sextant.util.config.Configs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -50,7 +51,12 @@ public class InGameHudMixin {
 
     @Unique
     private void renderSextantOverlay(DrawContext context, float angle_value){
-        String angleString = Integer.toString(Math.round(angle_value)) +"°";
+
+        String angleString = "";
+        switch(Configs.clientConfig.angleUnit){
+            case DEGREES -> angleString = Integer.toString( Math.round(angle_value)) + "°";
+            case RADIANS -> angleString = Float.toString((float) Math.round(100 * (Math.round(angle_value) * Math.PI / 180)) /100) + "rad";
+        }
         float scale = 0.85F;
         float f = (float)Math.min(this.scaledWidth, this.scaledHeight);
         float h = Math.min((float)this.scaledWidth / f, (float)this.scaledHeight / f) * scale;

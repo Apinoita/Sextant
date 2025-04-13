@@ -1,5 +1,6 @@
 package net.apinoita.sextant.item.custom;
 
+import me.fzzyhmstrs.fzzy_config.config.Config;
 import net.apinoita.sextant.util.ModMeasuringUtil;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
@@ -15,6 +16,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import net.apinoita.sextant.util.config.Configs;
 
 import java.util.List;
 
@@ -68,9 +70,10 @@ public class SextantItem extends Item {
             String angledeg = Integer.toString(Math.round(latestMeasurement)) + "°";
             String anglerad = Float.toString((float) Math.round(100 * (Math.round(latestMeasurement) * Math.PI / 180)) /100) + "rad";
 
-            if(true){tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angledeg));}
-            else {tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", anglerad));}
-
+            switch(Configs.clientConfig.angleUnit){
+                case DEGREES -> tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angledeg));
+                case RADIANS -> tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", anglerad));
+            }
         }
     }
 

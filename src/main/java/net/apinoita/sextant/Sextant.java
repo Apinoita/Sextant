@@ -1,13 +1,11 @@
 package net.apinoita.sextant;
 
-import com.moandjiezana.toml.TomlWriter;
-import net.apinoita.sextant.util.ModMenuIntegration;
-import me.shedaniel.autoconfig.AutoConfig;
 import net.apinoita.sextant.item.ModItems;
-import net.apinoita.sextant.util.config.ModConfig;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.apinoita.sextant.util.config.Configs;
 
 public class Sextant implements ModInitializer {
 	public static final String MOD_ID = "sextant";
@@ -24,7 +22,6 @@ public class Sextant implements ModInitializer {
 		// Proceed with mild caution.
 
 		ModItems.registerModItems();
-
-		AutoConfig.register(ModConfig.class, Toml4jConfigSerializer::new);
+		Configs.init();
 	}
 }
