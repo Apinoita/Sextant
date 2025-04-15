@@ -5,8 +5,9 @@
   "config.title.sextant": "Sekstantti",
   "config.category.sextant.client": "Käyttäjä",
 
-  "config.sextant.client.angleUnit": "Kulmayksikkö",
-  "config.sextant.client.angleUnit.desc": "Vaihtaa kulmayksikköä",
+  "sextant.client": "Sekstantti käyttäjäasetukset",
+  "sextant.client.angleUnit": "Kulmayksikkö",
+  "sextant.client.angleUnit.desc": "Vaihtaa kulmayksikköä",
   "sextant.AngleUnits.DEGREES": "Asteet",
   "sextant.AngleUnits.RADIANS": "Radiaanit"
 

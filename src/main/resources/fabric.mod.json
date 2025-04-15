@@ -3,7 +3,7 @@
 	"id": "sextant",
 	"version": "${version}",
 	"name": "Sextant",
-	"description": "A mod about measuring angles and distances",
+	"description": "A mod about measuring angles and distances with said angles",
 	"authors": [
 		"Apinoita"
 	],
@@ -11,7 +11,7 @@
 		"homepage": "https://modrinth.com/mod/sextant",
 		"sources": "https://github.com/Apinoita/sextant-1.20.1"
 	},
-	"license": "ARR",
+	"license": "MIT",
 	"icon": "assets/sextant/icon.png",
 	"environment": "*",
 	"entrypoints": {

@@ -8,7 +8,6 @@ import net.apinoita.sextant.Sextant;
 import net.apinoita.sextant.util.AngleUnits;
 import net.minecraft.util.Identifier;
 
-@Translation(prefix = "config.sextant.client")
 public class ModClientConfig extends Config {
     public ModClientConfig() {
         super(Identifier.of(Sextant.MOD_ID, "client"));
