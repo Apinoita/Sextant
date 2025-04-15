@@ -38,8 +38,7 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"yet_another_config_lib_v3": ">=3.6.6+1.20.1-fabric",
-		"another-mod": "*"
+		"yet_another_config_lib_v3": ">=3.6.6+1.20.1-fabric"
 	},
 	"custom": {
 		"modmenu": {
