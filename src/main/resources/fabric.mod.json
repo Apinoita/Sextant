@@ -11,7 +11,7 @@
 		"homepage": "https://modrinth.com/mod/sextant",
 		"sources": "https://github.com/Apinoita/sextant-1.20.1"
 	},
-	"license": "MIT",
+	"license": "MIT and CC BY-NC-SA (see github for details)",
 	"icon": "assets/sextant/icon.png",
 	"environment": "*",
 	"entrypoints": {
