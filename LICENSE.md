@@ -12,4 +12,4 @@ Copyright (c) 2025- Apinoita
   Per the definitions above, Textures and models is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License, found in [LICENSE-CCBYNCSA](LICENSE-CCBYNCSA.md)
 
 ### 2. Non-Textures and models
-   Per the definitions above everything not defined as handmade textures and models is licensed under the MIT License, found in [LICENSE-MIT](LICENSE-MIT.md)
+   Per the definitions above everything not defined as Textures and models is licensed under the MIT License, found in [LICENSE-MIT](LICENSE-MIT.md)
