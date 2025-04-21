@@ -1,6 +1,8 @@
 package net.apinoita.sextant;
 
 import net.apinoita.sextant.item.ModItems;
+import net.apinoita.sextant.screen.ModScreenHandlers;
+import net.apinoita.sextant.util.ModCustomTrades;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,9 @@ public class Sextant implements ModInitializer {
 		// Proceed with mild caution.
 
 		ModItems.registerModItems();
+		ModCustomTrades.registerCustomTrades();
+		ModScreenHandlers.registerScreenHandlers();
+
 		Configs.init();
 	}
 }
