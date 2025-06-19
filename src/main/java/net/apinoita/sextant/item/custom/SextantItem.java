@@ -70,8 +70,10 @@ public class SextantItem extends Item {
             String angledeg = Integer.toString(Math.round(latestMeasurement)) + "°";
             String anglerad = Float.toString((float) Math.round(100 * (Math.round(latestMeasurement) * Math.PI / 180)) /100) + "rad";
 
+
+
             switch(Configs.clientConfig.angleUnit){
-                case DEGREES -> tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angledeg));
+                case DEGREES -> tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angledeg, stack.getNbt().getBoolean("sextant.spyglass")));
                 case RADIANS -> tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", anglerad));
             }
         }

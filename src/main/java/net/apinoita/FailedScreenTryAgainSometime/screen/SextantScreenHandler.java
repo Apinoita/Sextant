@@ -19,7 +19,7 @@ public class SextantScreenHandler extends ScreenHandler {
 
     protected boolean clientContentsInitialized;
 
-    public SextantScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
+    protected SextantScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
         this(syncId, playerInventory, buf.readItemStack());
     }
 

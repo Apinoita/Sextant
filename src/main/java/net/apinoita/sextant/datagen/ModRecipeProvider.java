@@ -7,8 +7,10 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.function.Consumer;
 
@@ -27,5 +29,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(Items.COPPER_INGOT), conditionsFromItem(Items.COPPER_INGOT))
                 .criterion(hasItem(Items.GLASS_PANE), conditionsFromItem(Items.GLASS_PANE))
                 .offerTo(exporter, new Identifier(getRecipeName((ModItems.SEXTANT))));
+
+        //ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.SEXTANT.postProcessNbt(new NbtCompound().putBoolean("sextant.spyglass", true)), 1)
+
     }
 }

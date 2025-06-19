@@ -15,6 +15,7 @@ import net.minecraft.util.Identifier;
 public class ModItems {
 
     public static final Item SEXTANT = registerItem("sextant", new SextantItem(new FabricItemSettings().maxCount(1)));
+    public static final Item TEST = registerItem("test", new ModTestItem(new FabricItemSettings().maxCount(1)));
 
     private static void addItemsToToolTabItemGroup(FabricItemGroupEntries entries){
         entries.add(SEXTANT);
