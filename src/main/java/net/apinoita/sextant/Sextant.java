@@ -1,7 +1,7 @@
 package net.apinoita.sextant;
 
 import net.apinoita.sextant.item.ModItems;
-import net.apinoita.sextant.screen.ModScreenHandlers;
+import net.apinoita.FailedScreenTryAgainSometime.screen.ModScreenHandlers;
 import net.apinoita.sextant.util.ModCustomTrades;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

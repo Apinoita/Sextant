@@ -1,4 +1,4 @@
-package net.apinoita.sextant.screen;
+package net.apinoita.FailedScreenTryAgainSometime.screen;
 
 import net.apinoita.sextant.item.ModItems;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +14,11 @@ public class SextantScreenHandler extends ScreenHandler {
 
     private final Inventory inventory;
 
+    protected PlayerEntity player;
+    protected boolean attachments;
+
+    protected boolean clientContentsInitialized;
+
     public SextantScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
         this(syncId, playerInventory, buf.readItemStack());
     }
@@ -21,8 +26,12 @@ public class SextantScreenHandler extends ScreenHandler {
     public SextantScreenHandler(int syncId, PlayerInventory playerInventory, ItemStack itemStack) {
         super(ModScreenHandlers.SEXTANT_SCREEN_HANDLER, syncId);
 
-        ItemStack[] array = {new ItemStack(ModItems.SEXTANT, 1)};
-        SimpleInventory inventory = new SimpleInventory(array);
+        ItemStack attachementItem = new ItemStack(ModItems.SEXTANT, 1);
+        SimpleInventory inventory = new SimpleInventory(attachementItem);
+        addSlot(new Slot(inventory,0, 0,0));
+
+        addPlayerInventory(playerInventory);
+        addPlayerHotbar(playerInventory);
 
 
         this.inventory = inventory;

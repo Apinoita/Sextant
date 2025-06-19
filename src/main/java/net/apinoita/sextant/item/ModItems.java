@@ -1,10 +1,9 @@
 package net.apinoita.sextant.item;
 
 import net.apinoita.sextant.Sextant;
-import net.apinoita.sextant.item.custom.ModTestItem;
+import net.apinoita.FailedScreenTryAgainSometime.item.custom.ModTestItem;
 import net.apinoita.sextant.item.custom.SextantItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -16,7 +15,6 @@ import net.minecraft.util.Identifier;
 public class ModItems {
 
     public static final Item SEXTANT = registerItem("sextant", new SextantItem(new FabricItemSettings().maxCount(1)));
-    public static final Item MODTEST = registerItem("modtest", new ModTestItem(new FabricItemSettings().maxCount(1)));
 
     private static void addItemsToToolTabItemGroup(FabricItemGroupEntries entries){
         entries.add(SEXTANT);

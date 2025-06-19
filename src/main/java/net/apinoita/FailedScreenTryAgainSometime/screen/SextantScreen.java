@@ -1,4 +1,4 @@
-package net.apinoita.sextant.screen;
+package net.apinoita.FailedScreenTryAgainSometime.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
@@ -7,32 +7,28 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
 
 public class SextantScreen extends HandledScreen<SextantScreenHandler> {
 
-    private static final Identifier TEXTURE = new Identifier("textures/gui/container/sextantgui.png");
+    private static final Identifier TEXTURE = new Identifier("textures/gui/sextantgui.png");
 
     protected PlayerEntity player;
     protected ItemStack itemStack;
-    protected Hand hand;
     protected PlayerInventory inventory;
 
     public SextantScreen(SextantScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-        NbtCompound nbtCompound = itemStack.getNbt();
-
+        this.player = inventory.player;
     }
 
     @Override
     protected void init() {
-        super.init();
         int titleY = 1000;
-        int inventoryY = 1000;
+        //int inventoryY = 1000;
+        super.init();
     }
 
     @Override

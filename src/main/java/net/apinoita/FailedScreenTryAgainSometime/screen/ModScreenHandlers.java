@@ -1,4 +1,4 @@
-package net.apinoita.sextant.screen;
+package net.apinoita.FailedScreenTryAgainSometime.screen;
 
 import net.apinoita.sextant.Sextant;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
