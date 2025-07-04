@@ -29,8 +29,5 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(Items.COPPER_INGOT), conditionsFromItem(Items.COPPER_INGOT))
                 .criterion(hasItem(Items.GLASS_PANE), conditionsFromItem(Items.GLASS_PANE))
                 .offerTo(exporter, new Identifier(getRecipeName((ModItems.SEXTANT))));
-
-        //ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.SEXTANT.postProcessNbt(new NbtCompound().putBoolean("sextant.spyglass", true)), 1)
-
     }
 }

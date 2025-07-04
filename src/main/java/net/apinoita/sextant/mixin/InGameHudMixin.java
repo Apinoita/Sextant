@@ -9,7 +9,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -53,8 +52,8 @@ public class InGameHudMixin {
 
         String angleString = "";
         switch(Configs.clientConfig.angleUnit){
-            case DEGREES -> angleString = Integer.toString( Math.round(angle_value)) + "°";
-            case RADIANS -> angleString = Float.toString((float) Math.round(100 * (Math.round(angle_value) * Math.PI / 180)) /100) + "rad";
+            case DEGREES -> angleString = Math.round(angle_value) + "°";
+            case RADIANS -> angleString = (float) Math.round(100 * (Math.round(angle_value) * Math.PI / 180)) /100 + "rad";
         }
         float scale = 0.85F;
         float f = (float)Math.min(this.scaledWidth, this.scaledHeight);
@@ -77,10 +76,5 @@ public class InGameHudMixin {
 
         //0xAARRGGBB
         context.drawTextWithShadow(textRenderer, angleString,(this.scaledWidth/2 - textWidth/2), this.scaledHeight- this.scaledHeight/8, 0xdbdbdb);
-
-        /*context.fill(RenderLayer.getGuiOverlay(), 0, n, this.scaledWidth, this.scaledHeight, -90, -16777216);
-        context.fill(RenderLayer.getGuiOverlay(), 0, 0, this.scaledWidth, l, -90, -16777216);
-        context.fill(RenderLayer.getGuiOverlay(), 0, l, k, n, -90, -16777216);
-        context.fill(RenderLayer.getGuiOverlay(), m, l, this.scaledWidth, n, -90, -16777216);*/
     }
 }

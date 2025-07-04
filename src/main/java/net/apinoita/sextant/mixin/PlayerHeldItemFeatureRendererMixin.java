@@ -30,8 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerHeldItemFeatureRendererMixin <T extends PlayerEntity, M extends EntityModel<T> & ModelWithArms & ModelWithHead>
         extends HeldItemFeatureRenderer<T, M> {
 
-    @Shadow
-    @Final
+    @Shadow @Final
     private HeldItemRenderer playerHeldItemRenderer;
 
     public PlayerHeldItemFeatureRendererMixin(FeatureRendererContext<T, M> context, HeldItemRenderer heldItemRenderer) {super(context, heldItemRenderer);}
@@ -64,11 +63,8 @@ public class PlayerHeldItemFeatureRendererMixin <T extends PlayerEntity, M exten
         private boolean dontRenderItemWhenUsingSextant(HeldItemFeatureRenderer instance, LivingEntity entity, ItemStack stack, ModelTransformationMode transformationMode, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         if (entity.isPlayer()){
             PlayerEntity player = MinecraftClient.getInstance().player;
-            if (player != null){
-                return !ModCheckUtil.isUsingSextant(player) || player.isSneaking();
-            }
+            if (player != null){return !ModCheckUtil.isUsingSextant(player) || player.isSneaking();}
         }
         return false;
     }
-
 }

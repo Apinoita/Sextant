@@ -3,7 +3,7 @@
 	"id": "sextant",
 	"version": "${version}",
 	"name": "Sextant",
-	"description": "A mod about measuring angles and distances with said angles",
+	"description": "A mod about measuring angles and distances with said angles.",
 	"authors": [
 		"Apinoita"
 	],

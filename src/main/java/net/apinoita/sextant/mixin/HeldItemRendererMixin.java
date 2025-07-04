@@ -19,26 +19,10 @@ public class HeldItemRendererMixin {
 
     @Final @Shadow
     private MinecraftClient client;
-    @ModifyExpressionValue(
-            method = "renderFirstPersonItem",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isUsingSpyglass()Z")
-    )
+
+    @ModifyExpressionValue(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isUsingSpyglass()Z"))
     private boolean isAlsoUsingSextant(boolean original) {
-        if (client.player != null){
-            return original || (ModCheckUtil.isUsingSextant(client.player));
-        }
+        if (client.player != null){return original || (ModCheckUtil.isUsingSextant(client.player));}
         return !original;
     }
-
-    /*@WrapOperation(
-            method = "renderFirstPersonItem",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isUsingSpyglass()Z")
-    )
-    private boolean isAlsoUsingSextant(AbstractClientPlayerEntity instance, boolean flag, Operation<Boolean> original) {
-        if (ModCheckUtil.isUsingSextant(instance)) {
-            return false;
-        } else {
-            return original.call(instance, flag);
-        }
-    }*/
 }

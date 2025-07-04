@@ -5,7 +5,5 @@ import net.fabricmc.api.ClientModInitializer;
 public class SextantClient implements ClientModInitializer {
 
     @Override
-    public void onInitializeClient() {
-
-    }
+    public void onInitializeClient() {}
 }

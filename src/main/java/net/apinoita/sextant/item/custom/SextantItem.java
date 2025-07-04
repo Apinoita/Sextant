@@ -33,76 +33,40 @@ public class SextantItem extends Item {
     }
 
     public static final int MAX_USE_TIME = 1200;
-    public static final float field_30922 = 0.1F;
 
     private final int inventorySize = 2;
     private final int insertSlot = 0;
 
     private final SimpleInventory inventory = new SimpleInventory(inventorySize) {
         @Override
-        public int getMaxCountPerStack() {
-            return 1; // Optional: customize the maximum count in each slot.
-        }
+        public int getMaxCountPerStack() {return 1;}
 
         @Override
         public boolean isValid(int slot, ItemStack stack) {
-            // Optional: restrict which stacks are allowed in which slot.
             switch (slot) {
-                case 0 -> {
-                    return stack.isOf(Items.COMPASS);
-                }
-                case 1 -> {
-                    return stack.isOf(Items.SPYGLASS);
-                }
+                case 0 -> {return stack.isOf(Items.COMPASS);}
+                case 1 -> {return stack.isOf(Items.SPYGLASS);}
             }
             return true;
         }
     };
-
-
-
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-            return UseAction.SPYGLASS;
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 1200;
-    }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
             ItemStack sextantStack = user.getStackInHand(hand);
             invFromNBT(sextantStack);
+            //checking whick of two different actions should be performed
             if(user.isSneaking()){
-                Item insertItem = user.getInventory().getStack(insertSlot).getItem();
-                if(insertItem==Items.COMPASS || insertItem==Items.SPYGLASS){insertItem(sextantStack, user);}
-                else{outputItem(sextantStack, user);}
+                ItemStack insertStack = user.getInventory().getStack(insertSlot);
+                if(insertStack.isOf(Items.COMPASS) || insertStack.isOf(Items.SPYGLASS)){insertItem(insertStack, user);}
+                else{outputItem(user);}
                 saveNbt(sextantStack, -1, -1);
             }
             else {startMeasuring(sextantStack, Math.round(user.headYaw));}
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return ItemUsage.consumeHeldItem(world, user, hand);
-    }
-
-
-
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient()) {
-            stopMeasuring(stack, Math.round(user.headYaw));
-        }
-        return stack;
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (!world.isClient()) {
-            stopMeasuring(stack, Math.round(user.headYaw));
-        }
     }
 
     @Override
@@ -124,8 +88,24 @@ public class SextantItem extends Item {
         }
     }
 
-    private void startMeasuring(ItemStack stack, float currentAngle){
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        if (!world.isClient()) {stopMeasuring(stack, Math.round(user.headYaw));}
+        return stack;
+    }
 
+    @Override
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        if (!world.isClient()) {stopMeasuring(stack, Math.round(user.headYaw));}
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {return UseAction.SPYGLASS;}
+
+    @Override
+    public int getMaxUseTime(ItemStack stack) {return MAX_USE_TIME;}
+
+    private void startMeasuring(ItemStack stack, float currentAngle){
         float firstAngle = ModMeasuringUtil.convertAngleTo360format(currentAngle);
         float latestMeasurement;
         if (stack.hasNbt()){latestMeasurement = -1;}
@@ -135,16 +115,13 @@ public class SextantItem extends Item {
     }
 
     private void stopMeasuring(ItemStack stack, float currentAngle){
-
         float latestMeasurement;
         if(stack.hasNbt()){latestMeasurement = ModMeasuringUtil.calculateMeasurement(stack.getNbt().getFloat("sextant.sextant.first_angle"), ModMeasuringUtil.convertAngleTo360format(currentAngle));}
         else{latestMeasurement=0;}
         saveNbt(stack, -1, latestMeasurement);
     }
 
-    private void insertItem(ItemStack stack, PlayerEntity player){
-        ItemStack insertStack = player.getInventory().getStack(insertSlot);
-
+    private void insertItem(ItemStack insertStack, PlayerEntity player){
         for(int i = 0; i < inventorySize; i++) {
             if (inventory.getStack(i).isEmpty() && inventory.isValid(i, insertStack)) {
                     inventory.setStack(i, insertStack);
@@ -154,7 +131,7 @@ public class SextantItem extends Item {
         }
     }
 
-    private void outputItem(ItemStack stack, PlayerEntity player){
+    private void outputItem(PlayerEntity player){
         for(int i=0; i<inventorySize; i++){
             if (inventory.getStack(i).getCount() != 0) {
                 player.getInventory().offerOrDrop(inventory.getStack(i));
@@ -164,16 +141,13 @@ public class SextantItem extends Item {
         }
     }
 
-
     private void saveNbt(ItemStack stack, float firstAngle, float latestMeasurement){
         NbtCompound NbtData = new NbtCompound();
 
         if (firstAngle<0){NbtData.putFloat("sextant.sextant.first_angle", stack.getNbt().getFloat("sextant.sextant.first_angle"));}
         else {NbtData.putFloat("sextant.sextant.first_angle", firstAngle);}
-
         if (latestMeasurement<0){NbtData.putFloat("sextant.sextant.latest_measurement", stack.getNbt().getFloat("sextant.sextant.latest_measurement"));}
         else {NbtData.putFloat("sextant.sextant.latest_measurement", latestMeasurement);}
-
         NbtData.put("sextant.sextant.inventory", inventory.toNbtList());
 
         stack.setNbt(NbtData);
@@ -197,54 +171,5 @@ public class SextantItem extends Item {
             }
         }
     }
-           /*
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient()) {
-            float yaw = user.headYaw;
-
-            if(user.getStackInHand(hand).hasNbt()){
-
-                if(user.getStackInHand(hand).getNbt().getBoolean("sextant.measuring")){stopMeasuring(user, hand, yaw);}
-
-                else{startMeasuring(user, hand, yaw); user.sendMessage(Text.literal("measured"), false);}
-            }
-            else {startMeasuring(user, hand, yaw);}
-
-            user.sendMessage(Text.literal("Current yaw " + yaw), false);
-            }
-
-        return super.use(world, user, hand);
-    }
-    */
-
-    /*
-    @Override
-
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient()) {
-            startMeasuring(user.getStackInHand(hand), user.headYaw);
-            user.sendMessage(Text.literal("use"), false);
-        }
-        return super.use(world, user, hand);
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (!world.isClient()) {
-            stopMeasuring(stack, user.headYaw);
-            user.sendMessage(Text.literal("stop use"));
-            super.onStoppedUsing(stack, world, user, remainingUseTicks);
-        }
-    }
-
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient()) {
-            stopMeasuring(stack, user.headYaw);
-            user.sendMessage(Text.literal("finish use"));
-        }
-        return super.finishUsing(stack, world, user);
-    }*/
 }
 
