@@ -1,7 +1,8 @@
 {
   "item.sextant.sextant": "Sekstantti",
-  "item.sextant.tooltip.latest_measurement": "Viimeisin mittaustulos: %1$s",
-
+  "item.sextant.tooltip.latest_measurement": "Viimeisin mittaus: %1$",
+  "item.sextant.tooltip.compass": "Kompassi: %1$s",
+  "item.sextant.tooltip.spyglass": "Kaukoputki: %1$s",
   "config.title.sextant": "Sekstantti",
   "config.category.sextant.client": "Käyttäjä",
 

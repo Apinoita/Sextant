@@ -65,7 +65,7 @@ public class PlayerHeldItemFeatureRendererMixin <T extends PlayerEntity, M exten
         if (entity.isPlayer()){
             PlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null){
-                return !ModCheckUtil.isUsingSextant(player);
+                return !ModCheckUtil.isUsingSextant(player) || player.isSneaking();
             }
         }
         return false;

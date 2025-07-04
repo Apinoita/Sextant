@@ -1,7 +1,8 @@
 {
   "item.sextant.sextant": "Sextant",
   "item.sextant.tooltip.latest_measurement": "Latest measurement: %1$s",
-
+  "item.sextant.tooltip.compass": "Compass: %1$s",
+  "item.sextant.tooltip.spyglass": "Spyglass: %1$s",
   "config.title.sextant": "Sextant",
   "config.category.sextant.client": "Client",
 

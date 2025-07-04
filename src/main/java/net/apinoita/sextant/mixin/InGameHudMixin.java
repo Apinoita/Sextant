@@ -37,12 +37,11 @@ public class InGameHudMixin {
     @Inject(method = "render", at = @At("HEAD"))
     private void InjectToRender(DrawContext context, float tickDelta, CallbackInfo ci) {
         if (this.client.player != null) {
-            if (ModCheckUtil.isUsingSextant(this.client.player)) {
+            if (ModCheckUtil.isUsingSextant(this.client.player) && !this.client.player.isSneaking()) {
                 if (this.client.options.getPerspective().isFirstPerson())
                 {
-                    //this.client.player.sendMessage(Text.literal("yaw: "+ ModMeasuringUtil.convertAngleTo360format(this.client.player.headYaw)));
                     if(this.client.player.getActiveItem().hasNbt()) {
-                        renderSextantOverlay(context, ModMeasuringUtil.calculateMeasurement(this.client.player.getActiveItem().getNbt().getFloat("sextant.first_angle"), ModMeasuringUtil.convertAngleTo360format(this.client.player.headYaw)));
+                        renderSextantOverlay(context, ModMeasuringUtil.calculateMeasurement(this.client.player.getActiveItem().getNbt().getFloat("sextant.sextant.first_angle"), ModMeasuringUtil.convertAngleTo360format(this.client.player.headYaw)));
                     }
                 }
             }

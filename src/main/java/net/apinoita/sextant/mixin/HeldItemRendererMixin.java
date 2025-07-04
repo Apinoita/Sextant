@@ -25,7 +25,7 @@ public class HeldItemRendererMixin {
     )
     private boolean isAlsoUsingSextant(boolean original) {
         if (client.player != null){
-            return !(!original && !ModCheckUtil.isUsingSextant(client.player));
+            return original || (ModCheckUtil.isUsingSextant(client.player));
         }
         return !original;
     }
