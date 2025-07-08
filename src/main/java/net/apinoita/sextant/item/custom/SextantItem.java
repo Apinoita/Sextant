@@ -2,6 +2,7 @@ package net.apinoita.sextant.item.custom;
 
 import com.mojang.datafixers.kinds.IdF;
 import me.fzzyhmstrs.fzzy_config.config.Config;
+import net.apinoita.sextant.util.ModCheckUtil;
 import net.apinoita.sextant.util.ModMeasuringUtil;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
@@ -34,8 +35,9 @@ public class SextantItem extends Item {
 
     public static final int MAX_USE_TIME = 1200;
 
-    private final int inventorySize = 2;
-    private final int insertSlot = 0;
+    public static final int inventorySize = 2;
+    private static final int insertSlot = 0;
+    public static final int spyglassDecimals = 2;
 
     private final SimpleInventory inventory = new SimpleInventory(inventorySize) {
         @Override
@@ -63,7 +65,10 @@ public class SextantItem extends Item {
                 else{outputItem(user);}
                 saveNbt(sextantStack, -1, -1);
             }
-            else {startMeasuring(sextantStack, Math.round(user.headYaw));}
+            else {
+                int spyglassDecimalMultiplier = (int) Math.pow(10, spyglassDecimals);
+                startMeasuring(sextantStack, user.headYaw);
+            }
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return ItemUsage.consumeHeldItem(world, user, hand);
@@ -73,13 +78,13 @@ public class SextantItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         if (stack.hasNbt()){
             float latestMeasurement = stack.getNbt().getFloat("sextant.sextant.latest_measurement");
-
             String angleText;
+            int spyglassDecimalMultiplier = ModCheckUtil.itemInSextant(stack, Items.SPYGLASS) ? (int) Math.pow(10, spyglassDecimals) : 1;
 
             switch(Configs.clientConfig.angleUnit){
-                case RADIANS -> angleText = Math.round(100 * (Math.round(latestMeasurement) * Math.PI / 180)) /100 + "rad";
+                case RADIANS -> angleText = Math.round(100 * spyglassDecimalMultiplier * (Math.round(latestMeasurement) * Math.PI / 180)) /(100*spyglassDecimalMultiplier) + "rad";
                 // default case is DEGREES
-                default -> angleText = Math.round(latestMeasurement) + "°";
+                default -> angleText = Math.round(latestMeasurement*spyglassDecimalMultiplier)/spyglassDecimalMultiplier + "°";
             }
 
             tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angleText));
@@ -90,13 +95,13 @@ public class SextantItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient()) {stopMeasuring(stack, Math.round(user.headYaw));}
+        if (!world.isClient()) {stopMeasuring(stack, user.headYaw);}
         return stack;
     }
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (!world.isClient()) {stopMeasuring(stack, Math.round(user.headYaw));}
+        if (!world.isClient()) {stopMeasuring(stack,user.headYaw);}
     }
 
     @Override
@@ -106,17 +111,21 @@ public class SextantItem extends Item {
     public int getMaxUseTime(ItemStack stack) {return MAX_USE_TIME;}
 
     private void startMeasuring(ItemStack stack, float currentAngle){
-        float firstAngle = ModMeasuringUtil.convertAngleTo360format(currentAngle);
+        int spyglassDecimalMultiplier = ModCheckUtil.itemInSextant(stack, Items.SPYGLASS) ? (int) Math.pow(10, SextantItem.spyglassDecimals) : 1;
+        float firstAngle = (((float) Math.round(ModMeasuringUtil.convertAngleTo360format(currentAngle) * spyglassDecimalMultiplier)) / spyglassDecimalMultiplier);
         float latestMeasurement;
         if (stack.hasNbt()){latestMeasurement = -1;}
         else{latestMeasurement = 0;}
-
         saveNbt(stack, firstAngle, latestMeasurement);
     }
 
     private void stopMeasuring(ItemStack stack, float currentAngle){
         float latestMeasurement;
-        if(stack.hasNbt()){latestMeasurement = ModMeasuringUtil.calculateMeasurement(stack.getNbt().getFloat("sextant.sextant.first_angle"), ModMeasuringUtil.convertAngleTo360format(currentAngle));}
+        int spyglassDecimalMultiplier = ModCheckUtil.itemInSextant(stack, Items.SPYGLASS) ? (int) Math.pow(10, SextantItem.spyglassDecimals) : 1;
+        if(stack.hasNbt()){
+            latestMeasurement = ModMeasuringUtil.calculateMeasurement(stack.getNbt().getFloat("sextant.sextant.first_angle"),
+                    (((float) Math.round(ModMeasuringUtil.convertAngleTo360format(currentAngle) * spyglassDecimalMultiplier)) / spyglassDecimalMultiplier));
+        }
         else{latestMeasurement=0;}
         saveNbt(stack, -1, latestMeasurement);
     }

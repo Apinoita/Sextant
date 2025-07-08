@@ -3,7 +3,9 @@
   "package": "net.apinoita.sextant.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractClientPlayerEntityMixin",
     "InGameHudMixin",
+    "MouseMixin",
     "PlayerHeldItemFeatureRendererMixin"
   ],
   "injectors": {

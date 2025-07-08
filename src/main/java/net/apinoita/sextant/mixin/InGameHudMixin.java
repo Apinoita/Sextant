@@ -1,6 +1,7 @@
 package net.apinoita.sextant.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.apinoita.sextant.item.custom.SextantItem;
 import net.apinoita.sextant.util.ModCheckUtil;
 import net.apinoita.sextant.util.ModMeasuringUtil;
 import net.apinoita.sextant.util.config.Configs;
@@ -9,6 +10,11 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -25,43 +31,62 @@ public class InGameHudMixin {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
 
+    @Unique
+    private float sextantScale;
 
     @Shadow public TextRenderer getTextRenderer() {
         return null;
     }
 
+    @Shadow private float spyglassScale;
     @Unique
     private static final Identifier SEXTANT_SCOPE = new Identifier("textures/misc/sextant_scope_1.png");
 
+
     @Inject(method = "render", at = @At("HEAD"))
     private void InjectToRender(DrawContext context, float tickDelta, CallbackInfo ci) {
-        if (this.client.player != null) {
-            if (ModCheckUtil.isUsingSextant(this.client.player) && !this.client.player.isSneaking()) {
-                if (this.client.options.getPerspective().isFirstPerson())
-                {
-                    if(this.client.player.getActiveItem().hasNbt()) {
-                        renderSextantOverlay(context, ModMeasuringUtil.calculateMeasurement(this.client.player.getActiveItem().getNbt().getFloat("sextant.sextant.first_angle"), ModMeasuringUtil.convertAngleTo360format(this.client.player.headYaw)));
+        PlayerEntity player = this.client.player;
+        float f = this.client.getLastFrameDuration();
+        if (player != null) {
+            ItemStack itemStack = player.getActiveItem();
+            if (ModCheckUtil.isUsingSextant(player) && !player.isSneaking()) {
+                this.sextantScale = MathHelper.lerp(0.4f * f, this.sextantScale, 0.75F);
+                if (this.client.options.getPerspective().isFirstPerson()) {
+                    if(itemStack.hasNbt()) {
+                        float measurement = ModMeasuringUtil.calculateMeasurement(itemStack.getNbt().getFloat("sextant.sextant.first_angle"), ModMeasuringUtil.convertAngleTo360format(player.headYaw));
+                        renderSextantOverlay(context, measurement, this.sextantScale, ModCheckUtil.itemInSextant(itemStack, Items.SPYGLASS));
                     }
                 }
+            }
+            else{
+                this.sextantScale = 0.5f;
             }
         }
     }
 
     @Unique
-    private void renderSextantOverlay(DrawContext context, float angle_value){
+    private void renderSextantOverlay(DrawContext context, float angle_value, float scale, boolean spyglassEquipped){
+        String angleString;
+        int spyglassDecimalMultiplier = spyglassEquipped ? (int) Math.pow(10, SextantItem.spyglassDecimals) : 1;
 
-        String angleString = "";
         switch(Configs.clientConfig.angleUnit){
-            case DEGREES -> angleString = Math.round(angle_value) + "°";
-            case RADIANS -> angleString = (float) Math.round(100 * (Math.round(angle_value) * Math.PI / 180)) /100 + "rad";
+            case RADIANS -> angleString = Math.round(100 * spyglassDecimalMultiplier * (angle_value * Math.PI / 180))/(100*spyglassDecimalMultiplier) + "rad";
+            // default case is DEGREES
+            default -> {
+                if (spyglassEquipped) {
+                    angleString = (((float) Math.round(angle_value * spyglassDecimalMultiplier)) / spyglassDecimalMultiplier) + "°";
+                }
+                else{
+                    angleString = Math.round(angle_value) + "°";
+                }
+            }
         }
-        float scale = 0.85F;
         float f = (float)Math.min(this.scaledWidth, this.scaledHeight);
         float h = Math.min((float)this.scaledWidth / f, (float)this.scaledHeight / f) * scale;
         int i = MathHelper.floor(f * h);
         int j = MathHelper.floor(f * h);
         int k = (this.scaledWidth - i) / 2;
-        int l = (this.scaledHeight - j) / 25;
+        int l = (2*(this.scaledHeight - j))/5;
         int m = k + i;
         int n = l + j;
         RenderSystem.enableBlend();
@@ -75,6 +100,5 @@ public class InGameHudMixin {
         context.fill(RenderLayer.getGuiOverlay(), m, l, this.scaledWidth, n, -90, 0xFF2b1f06);
 
         //0xAARRGGBB
-        context.drawTextWithShadow(textRenderer, angleString,(this.scaledWidth/2 - textWidth/2), this.scaledHeight- this.scaledHeight/8, 0xdbdbdb);
-    }
+        context.drawTextWithShadow(textRenderer, angleString,(this.scaledWidth/2 - textWidth/2), this.scaledHeight- this.scaledHeight/8, 0xdbdbdb);}
 }
