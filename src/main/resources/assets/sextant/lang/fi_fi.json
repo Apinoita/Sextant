@@ -10,6 +10,9 @@
   "sextant.client.angleUnit": "Kulmayksikkö",
   "sextant.client.angleUnit.desc": "Vaihtaa kulmayksikköä",
   "sextant.AngleUnits.DEGREES": "Asteet",
-  "sextant.AngleUnits.RADIANS": "Radiaanit"
+  "sextant.AngleUnits.RADIANS": "Radiaanit",
 
+  "sounds.sextant.sextant_start_using": "Sekstantti aloittaa mittaamisen",
+  "sounds.sextant.sextant_stop_using": "Sekstantti lopettaa mittaamisen",
+  "sounds.sextant.sextant_insert_item": "Esine laitetaan sekstanttiin"
 }

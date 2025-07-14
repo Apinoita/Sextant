@@ -1,0 +1,20 @@
+{
+  "sextant_start_using": {
+    "subtitle": "sounds.sextant.sextant_start_using",
+    "sounds": [
+      "sextant:sextant_start_using"
+    ]
+  },
+  "sextant_stop_using": {
+    "subtitle" : "sounds.sextant.sextant_stop_using",
+    "sounds": [
+      "sextant:sextant_stop_using"
+    ]
+  },
+  "sextant_insert_item": {
+    "subtitle" : "sounds.sextant.sextant_insert_item",
+    "sounds": [
+      "sextant:sextant_stop_using"
+    ]
+  }
+}

@@ -1,8 +1,8 @@
 package net.apinoita.sextant;
 
 import net.apinoita.sextant.item.ModItems;
-import net.apinoita.FailedScreenTryAgainSometime.screen.ModScreenHandlers;
 import net.apinoita.sextant.util.ModCustomTrades;
+import net.apinoita.sextant.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ public class Sextant implements ModInitializer {
 	public void onInitialize() {
 		ModItems.registerModItems();
 		ModCustomTrades.registerCustomTrades();
-		ModScreenHandlers.registerScreenHandlers();
+		ModSounds.registerModSounds();
 		Configs.init();
 	}
 }

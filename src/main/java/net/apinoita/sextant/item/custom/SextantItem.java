@@ -1,9 +1,8 @@
 package net.apinoita.sextant.item.custom;
 
-import com.mojang.datafixers.kinds.IdF;
-import me.fzzyhmstrs.fzzy_config.config.Config;
 import net.apinoita.sextant.util.ModCheckUtil;
 import net.apinoita.sextant.util.ModMeasuringUtil;
+import net.apinoita.sextant.sound.ModSounds;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,7 +13,6 @@ import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -23,9 +21,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import net.apinoita.sextant.util.config.Configs;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SextantItem extends Item {
 
@@ -55,8 +51,9 @@ public class SextantItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack sextantStack = user.getStackInHand(hand);
+        playStartUsingSound(user);
         if (!world.isClient()) {
-            ItemStack sextantStack = user.getStackInHand(hand);
             invFromNBT(sextantStack);
             //checking whick of two different actions should be performed
             if(user.isSneaking()){
@@ -86,7 +83,6 @@ public class SextantItem extends Item {
                 // default case is DEGREES
                 default -> angleText = Math.round(latestMeasurement*spyglassDecimalMultiplier)/spyglassDecimalMultiplier + "°";
             }
-
             tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angleText));
             tooltip.add(Text.translatable("item.sextant.tooltip.compass", inventory.getStack(0).isEmpty() ? "O":"I"));
             tooltip.add(Text.translatable("item.sextant.tooltip.spyglass", inventory.getStack(1).isEmpty() ? "O":"I"));
@@ -95,12 +91,14 @@ public class SextantItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        playStopUsingSound(user);
         if (!world.isClient()) {stopMeasuring(stack, user.headYaw);}
         return stack;
     }
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        playStopUsingSound(user);
         if (!world.isClient()) {stopMeasuring(stack,user.headYaw);}
     }
 
@@ -162,7 +160,7 @@ public class SextantItem extends Item {
         stack.setNbt(NbtData);
     }
 
-    public void invFromNBT(ItemStack stack) {
+    private void invFromNBT(ItemStack stack) {
         if (stack.hasNbt()) {
             if (stack.getNbt().getList("sextant.sextant.inventory",10) != null)
                 inventory.readNbtList(stack.getNbt().getList("sextant.sextant.inventory", 10));
@@ -178,6 +176,19 @@ public class SextantItem extends Item {
                     }
                 }
             }
+        }
+    }
+    private void playStopUsingSound(LivingEntity user){
+        if (user.isSneaking()){
+            user.playSound(ModSounds.SEXTANT_INSERT_ITEM, 0.7f, 0.5f);
+        }
+        else{
+            user.playSound(ModSounds.SEXTANT_STOP_USING, 0.7f, 1.0f);
+        }
+    }
+    private void playStartUsingSound(LivingEntity user){
+        if(!user.isSneaking()) {
+            user.playSound(ModSounds.SEXTANT_START_USING, 2.0f, 1.0f);
         }
     }
 }

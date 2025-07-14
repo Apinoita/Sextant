@@ -10,6 +10,11 @@
   "sextant.client.angleUnit": "Angle unit",
   "sextant.client.angleUnit.desc": "Changes the unit that is used for angles",
   "sextant.AngleUnits.DEGREES": "Degrees",
-  "sextant.AngleUnits.RADIANS": "Radians"
+  "sextant.AngleUnits.RADIANS": "Radians",
+
+  "sounds.sextant.sextant_start_using": "Sextant starts measuring",
+  "sounds.sextant.sextant_stop_using": "Sextant stops measuring",
+  "sounds.sextant.sextant_insert_item": "Item is inserted into sextant"
+
 
 }
