@@ -11,7 +11,8 @@
   },
   "pattern": [
     " G ",
-    "CCC"
+    "CCC",
+    " C "
   ],
   "result": {
     "item": "sextant:sextant"

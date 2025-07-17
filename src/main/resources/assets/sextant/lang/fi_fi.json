@@ -1,8 +1,8 @@
 {
   "item.sextant.sextant": "Sekstantti",
-  "item.sextant.tooltip.latest_measurement": "Viimeisin mittaus: %1$",
-  "item.sextant.tooltip.compass": "Kompassi: %1$s",
-  "item.sextant.tooltip.spyglass": "Kaukoputki: %1$s",
+  "item.sextant.tooltip.latest_measurement": "Viimeisin mittaus:§e %1$",
+  "item.sextant.tooltip.compass": "Kompassi:§e %1$s",
+  "item.sextant.tooltip.spyglass": "Kaukoputki:§e %1$s",
   "item.sextant.tooltip.instructions.insert": "Tavaroita laitetaan sekstanttiin ensimmäisestä pikavalikkorivin kohdasta oikea-klikkaamalla kyykyssä ollessa.",
   "item.sextant.tooltip.instructions.output": "Tavaroita otetaan pois sekstantista oikea-klikkaamalla kyykyssä ollessa.",
   "item.sextant.tooltip.expand_tooltip": "§7Paina §6[%s§6]§7 avataksesi ohjeet",
@@ -13,6 +13,10 @@
   "config.sextant.client": "Sekstantti käyttäjäasetukset",
   "config.sextant.client.angleUnit": "Kulmayksikkö",
   "config.sextant.client.angleUnit.desc": "Vaihtaa kulmayksikköä",
+  "config.sextant.client.snappingThreshold": "Lukittautumisraja",
+  "config.sextant.client.snappingThreshold.desc": "Asteiden määrä joka määrää kuinka lähelleilmansuuntia täytyy katsoa jotta kamera lukittuu niihin kun sekstantissa on kompassi.",
+  "config.sextant.client.snappingThresholdSpyglass": "Lukittautumisraja kaukoputkella",
+  "config.sextant.client.snappingThresholdSpyglass.desc": "Lukittautumisraja kun sekstantissa on kaukoputki.",
   "sextant.AngleUnits.DEGREES": "Asteet",
   "sextant.AngleUnits.RADIANS": "Radiaanit",
 

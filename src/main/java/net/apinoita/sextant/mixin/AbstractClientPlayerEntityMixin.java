@@ -26,7 +26,7 @@ public class AbstractClientPlayerEntityMixin {
         if (MinecraftClient.getInstance().player != null){
             if (MinecraftClient.getInstance().options.getPerspective().isFirstPerson() && ModCheckUtil.isUsingSextant(player) && !player.isSneaking()) {
                 if (ModCheckUtil.itemInSextant(player.getActiveItem(), Items.SPYGLASS)){
-                    return 0.1f;
+                    return 0.15f;
                 }
                 else{
                     return 0.8f;

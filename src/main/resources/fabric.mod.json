@@ -3,7 +3,7 @@
 	"id": "sextant",
 	"version": "${version}",
 	"name": "Sextant",
-	"description": "A mod about measuring angles and distances with said angles.\nThanks to Everyone from The Fabric Project and KaupenHub discord server for all of their help",
+	"description": "A small mod about measuring angles and calculating distances with said angles.",
 	"authors": [
 		"Apinoita"
 	],

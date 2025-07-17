@@ -43,7 +43,7 @@ public class InGameHudMixin {
     @Shadow private float spyglassScale;
 
     @Unique
-    private static final Identifier SEXTANT_SCOPE = new Identifier(Sextant.MOD_ID, "textures/misc/sextant_scope_1.png");
+    private static final Identifier SEXTANT_SCOPE = new Identifier(Sextant.MOD_ID, "textures/misc/sextant_scope.png");
     @Unique
     private static final Identifier COMPASS_DIRECTIONS = new Identifier(Sextant.MOD_ID, "textures/misc/compass_directions.png");
     @Unique
