@@ -2,6 +2,7 @@ package net.apinoita.sextant.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.apinoita.sextant.Sextant;
 import net.apinoita.sextant.item.custom.SextantItem;
 import net.apinoita.sextant.util.ModCheckUtil;
 import net.apinoita.sextant.util.ModMeasuringUtil;
@@ -42,11 +43,11 @@ public class InGameHudMixin {
     @Shadow private float spyglassScale;
 
     @Unique
-    private static final Identifier SEXTANT_SCOPE = new Identifier("textures/misc/sextant_scope_1.png");
+    private static final Identifier SEXTANT_SCOPE = new Identifier(Sextant.MOD_ID, "textures/misc/sextant_scope_1.png");
     @Unique
-    private static final Identifier COMPASS_DIRECTIONS = new Identifier("textures/misc/compass_directions.png");
+    private static final Identifier COMPASS_DIRECTIONS = new Identifier(Sextant.MOD_ID, "textures/misc/compass_directions.png");
     @Unique
-    private static final Identifier COMPASS_POINTER = new Identifier("textures/misc/compass_pointer.png");
+    private static final Identifier COMPASS_POINTER = new Identifier(Sextant.MOD_ID, "textures/misc/compass_pointer.png");
 
 
     @Inject(method = "render", at = @At("HEAD"))
@@ -124,13 +125,12 @@ public class InGameHudMixin {
                 context.drawTexture(COMPASS_DIRECTIONS, (Math.round((headYaw + 90 - 360 * 2) * 100) * scaledWidth) / (180 * 100) + offset, 0, 0, 0, scaledWidth * 2, scaledWidth / 16, scaledWidth * 2, scaledWidth / 16);
             }
             context.drawTexture(COMPASS_POINTER, scaledWidth/2-(pointerSize/2), scaledHeight/10, 0, 0, pointerSize, pointerSize, pointerSize, pointerSize);
-
         }
 
 
         TextRenderer textRenderer = this.getTextRenderer();
         int textWidth = textRenderer.getWidth(angleString);
         //0xAARRGGBB
-        context.drawTextWithShadow(textRenderer, angleString,(this.scaledWidth/2 - textWidth/2), this.scaledHeight- this.scaledHeight/15, 0xdbdbdb);
+        context.drawTextWithShadow(textRenderer, angleString,(this.scaledWidth/2 - textWidth/2), this.scaledHeight- this.scaledHeight/(compassEquipped?20:10), 0xdbdbdb);
     }
 }

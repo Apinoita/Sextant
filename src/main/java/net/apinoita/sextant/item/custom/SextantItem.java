@@ -4,6 +4,7 @@ import net.apinoita.sextant.util.ModCheckUtil;
 import net.apinoita.sextant.util.ModMeasuringUtil;
 import net.apinoita.sextant.sound.ModSounds;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
@@ -34,6 +35,8 @@ public class SextantItem extends Item {
     public static final int inventorySize = 2;
     private static final int insertSlot = 0;
     public static final int spyglassDecimals = 2;
+    private final String os = System.getProperty("os.name");
+    private int snappedCountdown;
 
     private final SimpleInventory inventory = new SimpleInventory(inventorySize) {
         @Override
@@ -54,8 +57,9 @@ public class SextantItem extends Item {
         ItemStack sextantStack = user.getStackInHand(hand);
         playStartUsingSound(user);
         if (!world.isClient()) {
+            snappedCountdown = 0;
             invFromNBT(sextantStack);
-            //checking whick of two different actions should be performed
+            //checking which of two different actions should be performed
             if(user.isSneaking()){
                 ItemStack insertStack = user.getInventory().getStack(insertSlot);
                 if(insertStack.isOf(Items.COMPASS) || insertStack.isOf(Items.SPYGLASS)){insertItem(insertStack, user);}
@@ -63,8 +67,7 @@ public class SextantItem extends Item {
                 saveNbt(sextantStack, -1, -1);
             }
             else {
-                int spyglassDecimalMultiplier = (int) Math.pow(10, spyglassDecimals);
-                startMeasuring(sextantStack, user.headYaw);
+                startMeasuring(sextantStack, user.getHeadYaw());
             }
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
@@ -72,34 +75,50 @@ public class SextantItem extends Item {
     }
 
     @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (entity instanceof LivingEntity user){
+            if (ModCheckUtil.itemInSextant(stack, Items.COMPASS) && selected && (Configs.clientConfig.snappingThreshold != 0f || Configs.clientConfig.snappingThresholdSpyglass != 0f)) {
+                snapHeadYaw(user);
+            }
+        }
+    }
+
+    @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (stack.hasNbt()){
+        if (stack.hasNbt()) {
             float latestMeasurement = stack.getNbt().getFloat("sextant.sextant.latest_measurement");
             String angleText;
             int spyglassDecimalMultiplier = ModCheckUtil.itemInSextant(stack, Items.SPYGLASS) ? (int) Math.pow(10, spyglassDecimals) : 1;
 
-            switch(Configs.clientConfig.angleUnit){
-                case RADIANS -> angleText = Math.round(100 * spyglassDecimalMultiplier * (Math.round(latestMeasurement) * Math.PI / 180)) /(100*spyglassDecimalMultiplier) + "rad";
+            switch (Configs.clientConfig.angleUnit) {
+                case RADIANS ->
+                        angleText = Math.round(100 * spyglassDecimalMultiplier * (Math.round(latestMeasurement) * Math.PI / 180)) / (100 * spyglassDecimalMultiplier) + "rad";
                 // default case is DEGREES
-                default -> angleText = Math.round(latestMeasurement*spyglassDecimalMultiplier)/spyglassDecimalMultiplier + "°";
+                default ->
+                        angleText = Math.round(latestMeasurement * spyglassDecimalMultiplier) / spyglassDecimalMultiplier + "°";
             }
             tooltip.add(Text.translatable("item.sextant.tooltip.latest_measurement", angleText));
-            tooltip.add(Text.translatable("item.sextant.tooltip.compass", inventory.getStack(0).isEmpty() ? "O":"I"));
-            tooltip.add(Text.translatable("item.sextant.tooltip.spyglass", inventory.getStack(1).isEmpty() ? "O":"I"));
+            tooltip.add(Text.translatable("item.sextant.tooltip.compass", inventory.getStack(0).isEmpty() ? "O" : "I"));
+            tooltip.add(Text.translatable("item.sextant.tooltip.spyglass", inventory.getStack(1).isEmpty() ? "O" : "I"));
+            tooltip.add(Text.translatable("item.sextant.tooltip.expand_tooltip", os.equals("Mac OS X") ? "cmd" : "ctrl"));
+        }
+        if(net.minecraft.client.gui.screen.Screen.hasControlDown()){
+            tooltip.add(Text.translatable("item.sextant.tooltip.instructions.insert"));
+            tooltip.add(Text.translatable("item.sextant.tooltip.instructions.output"));
         }
     }
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         playStopUsingSound(user);
-        if (!world.isClient()) {stopMeasuring(stack, user.headYaw);}
+        if (!world.isClient()) {stopMeasuring(stack, user.getHeadYaw());}
         return stack;
     }
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         playStopUsingSound(user);
-        if (!world.isClient()) {stopMeasuring(stack,user.headYaw);}
+        if (!world.isClient()) {stopMeasuring(stack,user.getHeadYaw());}
     }
 
     @Override
@@ -191,5 +210,24 @@ public class SextantItem extends Item {
             user.playSound(ModSounds.SEXTANT_START_USING, 2.0f, 1.0f);
         }
     }
-}
 
+    private void snapHeadYaw(LivingEntity user){
+        if (snappedCountdown <= 0) {
+            for (int i = 0; i<360; i+=90){
+                if (ModCheckUtil.isUsingSextant(user)&&!user.isSneaking()){
+                    if (ModCheckUtil.shouldSnap(ModMeasuringUtil.convertAngleTo360format(user.getHeadYaw()),i,ModCheckUtil.itemInSextant(user.getActiveItem(), Items.SPYGLASS))){
+                        user.setYaw(i>180f?-(360f-i):i);
+                        snappedCountdown = 31;
+                    }
+                }
+            }
+        }
+        else if(snappedCountdown>20){
+            user.setYaw(Math.round(ModMeasuringUtil.convertAngleTo360format(user.getHeadYaw())/90)*90);
+            snappedCountdown--;
+        }
+        if (!(user.getHeadYaw() == 0f || user.getHeadYaw() == 90f|| user.getHeadYaw() == 180f|| user.getHeadYaw() == 270f|| user.getHeadYaw() == 360f)){
+            snappedCountdown--;
+        }
+    }
+}

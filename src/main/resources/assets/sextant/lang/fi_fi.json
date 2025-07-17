@@ -3,16 +3,20 @@
   "item.sextant.tooltip.latest_measurement": "Viimeisin mittaus: %1$",
   "item.sextant.tooltip.compass": "Kompassi: %1$s",
   "item.sextant.tooltip.spyglass": "Kaukoputki: %1$s",
+  "item.sextant.tooltip.instructions.insert": "Tavaroita laitetaan sekstanttiin ensimmäisestä pikavalikkorivin kohdasta oikea-klikkaamalla kyykyssä ollessa.",
+  "item.sextant.tooltip.instructions.output": "Tavaroita otetaan pois sekstantista oikea-klikkaamalla kyykyssä ollessa.",
+  "item.sextant.tooltip.expand_tooltip": "§7Paina §6[%s§6]§7 avataksesi ohjeet",
+
   "config.title.sextant": "Sekstantti",
   "config.category.sextant.client": "Käyttäjä",
 
-  "sextant.client": "Sekstantti käyttäjäasetukset",
-  "sextant.client.angleUnit": "Kulmayksikkö",
-  "sextant.client.angleUnit.desc": "Vaihtaa kulmayksikköä",
+  "config.sextant.client": "Sekstantti käyttäjäasetukset",
+  "config.sextant.client.angleUnit": "Kulmayksikkö",
+  "config.sextant.client.angleUnit.desc": "Vaihtaa kulmayksikköä",
   "sextant.AngleUnits.DEGREES": "Asteet",
   "sextant.AngleUnits.RADIANS": "Radiaanit",
 
   "sounds.sextant.sextant_start_using": "Sekstantti aloittaa mittaamisen",
   "sounds.sextant.sextant_stop_using": "Sekstantti lopettaa mittaamisen",
-  "sounds.sextant.sextant_insert_item": "Esine laitetaan sekstanttiin"
+  "sounds.sextant.sextant_insert_item": "Sekstantin lisäosia muokattu"
 }

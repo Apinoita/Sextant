@@ -3,18 +3,24 @@
   "item.sextant.tooltip.latest_measurement": "Latest measurement: %1$s",
   "item.sextant.tooltip.compass": "Compass: %1$s",
   "item.sextant.tooltip.spyglass": "Spyglass: %1$s",
+  "item.sextant.tooltip.instructions.insert": "Insert items from the first slot  by right-clicking while sneaking.",
+  "item.sextant.tooltip.instructions.output": "Output items from the sextant by right-clicking while sneaking.",
+  "item.sextant.tooltip.expand_tooltip": "§7Press §6[%s§6]§7 to open instructions",
+
   "config.title.sextant": "Sextant",
   "config.category.sextant.client": "Client",
 
-  "sextant.client": "Sextant client config",
-  "sextant.client.angleUnit": "Angle unit",
-  "sextant.client.angleUnit.desc": "Changes the unit that is used for angles",
+  "config.sextant.client": "Sextant client config",
+  "config.sextant.client.angleUnit": "Angle unit",
+  "config.sextant.client.angleUnit.desc": "The unit that is used for angles",
+  "config.sextant.client.snappingThreshold": "Snapping threshold",
+  "config.sextant.client.snappingThreshold.desc": "The amount of degrees that determines how close your rotation needs to be to a cardinal direction for the camera to snap to it if a compass is equipped in the sextant",
+  "config.sextant.client.snappingThresholdSpyglass": "Snapping threshold when using spyglass",
+  "config.sextant.client.snappingThresholdSpyglass.desc": "The same as snapping threshold but when a spyglass is equipped in the sextant",
   "sextant.AngleUnits.DEGREES": "Degrees",
   "sextant.AngleUnits.RADIANS": "Radians",
 
   "sounds.sextant.sextant_start_using": "Sextant starts measuring",
   "sounds.sextant.sextant_stop_using": "Sextant stops measuring",
-  "sounds.sextant.sextant_insert_item": "Item is inserted into sextant"
-
-
+  "sounds.sextant.sextant_insert_item": "Sextant attachments modified"
 }

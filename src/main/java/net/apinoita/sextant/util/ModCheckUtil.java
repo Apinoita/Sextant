@@ -2,14 +2,16 @@ package net.apinoita.sextant.util;
 
 import net.apinoita.sextant.item.ModItems;
 import net.apinoita.sextant.item.custom.SextantItem;
+import net.apinoita.sextant.util.config.Configs;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ModCheckUtil {
-    public static boolean isUsingSextant(PlayerEntity player){
-        return player.isUsingItem() && player.getActiveItem().isOf(ModItems.SEXTANT);
+    public static boolean isUsingSextant(LivingEntity user){
+        return user.isUsingItem() && user.getActiveItem().isOf(ModItems.SEXTANT);
     }
 
     public static boolean itemInSextant(ItemStack itemStack, Item item){
@@ -23,5 +25,13 @@ public class ModCheckUtil {
             }
         }
         return false;
+    }
+
+    public static boolean shouldSnap(float value, float refValue, boolean spyglassEquipped){
+        float threshold = spyglassEquipped?Configs.clientConfig.snappingThresholdSpyglass:Configs.clientConfig.snappingThreshold;
+        if (refValue == 0){
+            return value < 0+threshold || 360-threshold < value;
+        }
+        return value < refValue+threshold && refValue-threshold < value;
     }
 }

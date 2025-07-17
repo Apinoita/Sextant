@@ -24,6 +24,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.SEXTANT, 1)
                 .pattern(" G ")
                 .pattern("CCC")
+                .pattern(" C ")
                 .input('G', Items.GLASS_PANE)
                 .input('C', Items.COPPER_INGOT)
                 .criterion(hasItem(Items.COPPER_INGOT), conditionsFromItem(Items.COPPER_INGOT))
